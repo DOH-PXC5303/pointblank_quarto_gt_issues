@@ -1,0 +1,42 @@
+---
+title: "Test1"
+format: html
+echo: false
+
+---
+
+Create an informant
+``` {r inform1}
+library(pointblank)
+# Create a pointblank `informant` object, with the
+# tibble as the target table. Use a few information
+# functions and end with `incorporate()`. The informant
+# will then show you information about the tibble.
+informant <- 
+  data.frame('a'=c(1,2,3,4,5),
+             'b'=c('Value1', 'Value2', 'Value3', 'Value4', 'Value5')) |>
+  create_informant(
+    label = "Example",
+    tbl_name = "example_df"
+  ) |>
+  info_tabular(description = '**This** is a *table* that contains I created with some base R `code`') |>
+  info_columns(
+    columns = c(a, b),
+    description = "An example field."
+  ) |>
+  info_columns(
+    columns = b,
+    info = 'This field has some values. Here they are: {b_list}'
+  ) |>
+  info_snippet(snippet_name = "b_list", fn = snip_list("b")) |>
+  #info_snippet(snippet_name = "b_highest", fn = snip_highest("b")) |>
+  info_section(
+    section_name = "further information", 
+    `examples and documentation` = "Examples for how to use the
+    `info_*()` functions (and many more) are available at the
+    [**pointblank** site](https://rstudio.github.io/pointblank/)."
+  ) |>
+  incorporate()
+
+get_informant_report(informant)
+```
